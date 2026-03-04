@@ -89,6 +89,55 @@ export function App() {
   });
 });
 
+describe("React Extractor — default parameter values", () => {
+  test("extracts string defaults for known prop names", () => {
+    const source = `
+      function Dialog({ confirmLabel = "Continue", cancelLabel = "Cancel" }) {
+        return <div>{confirmLabel}</div>;
+      }
+    `;
+    const results = extractor.extract(source, "dialog.tsx");
+    const texts = results.map(r => r.text);
+    expect(texts).toContain("Continue");
+    expect(texts).toContain("Cancel");
+  });
+
+  test("extracts from arrow function components", () => {
+    const source = `
+      const Input = ({ placeholder = "Enter text..." }: Props) => {
+        return <input placeholder={placeholder} />;
+      };
+    `;
+    const results = extractor.extract(source, "input.tsx");
+    expect(results.map(r => r.text)).toContain("Enter text...");
+  });
+
+  test("skips non-UI parameter names", () => {
+    const source = `
+      function Component({ className = "flex", maxItems = 10, label = "Hello" }) {
+        return <div className={className}>{label}</div>;
+      }
+    `;
+    const results = extractor.extract(source, "component.tsx");
+    const texts = results.map(r => r.text);
+    expect(texts).toContain("Hello");
+    expect(texts).not.toContain("flex");
+    // maxItems = 10 is a number, not a string
+  });
+
+  test("extracts from destructured props with type annotation", () => {
+    const source = `
+      function Section({ heading = "FAQ", description = "Common questions" }: SectionProps) {
+        return <div><h1>{heading}</h1><p>{description}</p></div>;
+      }
+    `;
+    const results = extractor.extract(source, "section.tsx");
+    const texts = results.map(r => r.text);
+    expect(texts).toContain("FAQ");
+    expect(texts).toContain("Common questions");
+  });
+});
+
 describe("React Extractor — @linguo-ignore", () => {
   test("skips strings with @linguo-ignore comment", () => {
     const source = `
