@@ -1,4 +1,5 @@
 import type { Extractor } from "./interfaces/extractor.js";
+import type { Replacer } from "./interfaces/replacer.js";
 import type { Formatter } from "./interfaces/formatter.js";
 import type { TranslationProvider } from "./interfaces/translator.js";
 import type { HookAdapter } from "./interfaces/hook-adapter.js";
@@ -51,6 +52,7 @@ export interface LinguoConfig {
   exclude?: string[];
   outDir: string;
   extractors: Extractor[];
+  replacers?: Replacer[];
   formatters: Formatter[];
   translators?: TranslationProvider[];
   hookAdapters?: HookAdapter[];
