@@ -1,9 +1,15 @@
 import type { Replacer, ExtractionResult, ReplaceResult } from "@gavai/linguo";
 
-export function createReactReplacer(): Replacer {
+export interface ReactReplacerOptions {
+  /** Module path for the `t` function import. Defaults to `"@/i18n"`. */
+  importPath?: string;
+}
+
+export function createReactReplacer(options?: ReactReplacerOptions): Replacer {
+  const importPath = options?.importPath ?? "@/i18n";
   return {
     filePatterns: ["*.tsx", "*.jsx"],
-    imports: ['import { t } from "@/i18n"'],
+    imports: [`import { t } from "${importPath}"`],
 
     replace(source: string, extractions: ExtractionResult[]): ReplaceResult {
       let output = source;

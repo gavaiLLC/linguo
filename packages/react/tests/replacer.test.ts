@@ -38,3 +38,15 @@ export function Search() {
     expect(replacer.imports).toContain('import { t } from "@/i18n"');
   });
 });
+
+describe("React Replacer — custom import path", () => {
+  test("uses custom import path when configured", () => {
+    const customReplacer = reactReplacer({ importPath: "@gavai/i18n" });
+    expect(customReplacer.imports).toContain('import { t } from "@gavai/i18n"');
+  });
+
+  test("defaults to @/i18n when no import path specified", () => {
+    const defaultReplacer = reactReplacer();
+    expect(defaultReplacer.imports).toContain('import { t } from "@/i18n"');
+  });
+});
