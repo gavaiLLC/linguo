@@ -1,0 +1,21 @@
+{
+  "name": "linguo",
+  "private": true,
+  "packageManager": "bun@1.3.10",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo watch dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "check": "turbo run lint typecheck test"
+  },
+  "devDependencies": {
+    "oxlint": "latest",
+    "turbo": "latest",
+    "typescript": "^5.9.3"
+  }
+}
