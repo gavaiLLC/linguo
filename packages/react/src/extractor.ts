@@ -22,6 +22,19 @@ const EXTRACTABLE_ATTRIBUTES = new Set([
   "aria-description",
 ]);
 
+/** Parameter names that suggest user-facing text (exact matches). */
+const UI_PARAM_NAMES = new Set([
+  "label", "title", "heading", "description", "text", "message",
+  "placeholder", "buttonLabel", "confirmLabel", "cancelLabel",
+  "emptyText", "errorMessage", "successMessage", "tooltip",
+  "caption", "subtitle", "alt", "ariaLabel",
+]);
+
+/** Suffixes on parameter names that suggest user-facing text. */
+const UI_PARAM_SUFFIXES = [
+  "Label", "Text", "Title", "Message", "Heading", "Description", "Placeholder",
+];
+
 /** Attribute names that should never be extracted. */
 const SKIP_ATTRIBUTES = new Set([
   "className",
@@ -102,6 +115,31 @@ export function createReactExtractor(): Extractor {
             },
           });
         },
+
+        // Extract default parameter value strings:
+        // function Dialog({ confirmLabel = "Continue" }) {}
+        AssignmentPattern(path: NodePath<t.AssignmentPattern>) {
+          if (!t.isIdentifier(path.node.left)) return;
+          if (!t.isStringLiteral(path.node.right)) return;
+
+          const paramName = path.node.left.name;
+          if (!isUIParamName(paramName)) return;
+
+          const text = path.node.right.value;
+          if (text.length < MIN_TEXT_LENGTH) return;
+          if (isIgnored(path.node.loc?.start.line ?? 0, ignoredLines)) return;
+
+          results.push({
+            text,
+            key: generateKey(filePath, text),
+            context: paramName,
+            location: {
+              file: filePath,
+              line: path.node.loc?.start.line ?? 0,
+              column: path.node.loc?.start.column ?? 0,
+            },
+          });
+        },
       });
 
       return results;
@@ -146,4 +184,10 @@ function findMarkerStrings(
 
 function isIgnored(line: number, ignoredLines: Set<number>): boolean {
   return ignoredLines.has(line);
+}
+
+/** Check if a parameter name suggests user-facing text. */
+function isUIParamName(name: string): boolean {
+  if (UI_PARAM_NAMES.has(name)) return true;
+  return UI_PARAM_SUFFIXES.some((suffix) => name.endsWith(suffix));
 }
