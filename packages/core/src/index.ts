@@ -14,3 +14,6 @@ export type {
   HookConfig,
   LinguoConfig,
 } from "./types.js";
+
+export { ManifestTracker } from "./manifest/index.js";
+export type { ManifestEntry } from "./manifest/index.js";
