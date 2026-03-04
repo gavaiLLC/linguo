@@ -1,0 +1,29 @@
+{
+  "name": "@gavai/linguo",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "linguo": "./dist/cli/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "oxlint",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "oxlint": "latest",
+    "tsup": "^8.0.0",
+    "typescript": "^5.9.3"
+  }
+}
