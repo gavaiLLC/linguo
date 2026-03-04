@@ -23,6 +23,19 @@
         "typescript": "^5.9.3",
       },
     },
+    "packages/json-formatter": {
+      "name": "@gavai/linguo-json",
+      "version": "0.1.0",
+      "dependencies": {
+        "@gavai/linguo": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/bun": "latest",
+        "oxlint": "latest",
+        "tsup": "^8.0.0",
+        "typescript": "^5.9.3",
+      },
+    },
     "packages/react": {
       "name": "@gavai/linguo-react",
       "version": "0.1.0",
@@ -113,6 +126,8 @@
     "@esbuild/win32-x64": ["@esbuild/win32-x64@0.27.3", "", { "os": "win32", "cpu": "x64" }, "sha512-4uJGhsxuptu3OcpVAzli+/gWusVGwZZHTlS63hh++ehExkVT8SgiEf7/uC/PclrPPkLhZqGgCTjd0VWLo6xMqA=="],
 
     "@gavai/linguo": ["@gavai/linguo@workspace:packages/core"],
+
+    "@gavai/linguo-json": ["@gavai/linguo-json@workspace:packages/json-formatter"],
 
     "@gavai/linguo-react": ["@gavai/linguo-react@workspace:packages/react"],
 
