@@ -8,11 +8,11 @@ export default defineConfig([
     sourcemap: true,
     clean: true,
   },
-  // TODO: Add CLI entry point once Task 9 (CLI) is implemented
-  // {
-  //   entry: ["src/cli/index.ts"],
-  //   format: ["esm"],
-  //   banner: { js: "#!/usr/bin/env node" },
-  //   sourcemap: true,
-  // },
+  {
+    entry: ["src/cli/index.ts"],
+    outDir: "dist/cli",
+    format: ["esm"],
+    banner: { js: "#!/usr/bin/env node" },
+    sourcemap: true,
+  },
 ]);
