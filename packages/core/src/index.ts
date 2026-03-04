@@ -17,3 +17,5 @@ export type {
 
 export { ManifestTracker } from "./manifest/index.js";
 export type { ManifestEntry } from "./manifest/index.js";
+
+export { defineConfig, resolveConfig } from "./config/index.js";
